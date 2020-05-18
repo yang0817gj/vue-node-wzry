@@ -1,10 +1,11 @@
  <template>
     <el-table :data="model" style="width: 100%">
         <el-table-column prop="name" label="名称" width="180"></el-table-column>
+        <el-table-column prop="parent.name" label="上级分类" width="180"></el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
-                <el-button @click="handleDelete(scope.row._id)" type="text" size="small">删除</el-button>
                 <el-button @click="handleEdit(scope.row._id)" type="text" size="small">编辑</el-button>
+                <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -26,12 +27,22 @@ export default {
             this.model = res.data;
             console.log(res);
         },
-        async handleDelete(id) {
-            await this.$http.delete(`/categories/${id}`);
-            console.log(res);
+        handleDelete(row) {
+            this.$confirm(`此操作将永久删除分类  "${row.name}"?`, "提示", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+            }).then(async () => {
+                await this.$http.delete(`/categories/${row._id}`);
+                this.$message({
+                    type: "success",
+                    message: "删除成功!"
+                });
+                this.fetch()
+            });
         },
-        handleEdit (id) {
-            this.$router.push({path: `/categories/create/${id}`})
+        handleEdit(id) {
+            this.$router.push({ path: `/categories/create/${id}` });
         }
     }
 };
