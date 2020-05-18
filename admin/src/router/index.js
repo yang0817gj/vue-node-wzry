@@ -15,6 +15,12 @@ const routes = [
                 component: () => import('../views/CategoriesEdit.vue'),
             },
             {
+                path: '/categories/create/:id',
+                name: 'category-create',
+                component: () => import('../views/CategoriesEdit.vue'),
+                props: true
+            },
+            {
                 path: '/categories/list',
                 name: 'category-list',
                 component: () => import('../views/CategoriesList.vue'),
