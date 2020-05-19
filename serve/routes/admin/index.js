@@ -1,38 +1,59 @@
 module.exports = app => {
     const express = require('express')
-    const router = express.Router()
-    const Category = require('../../models/Category')
-    router.post('/categories', async (req, res) => {
-        const model = await Category.create(req.body)
-        res.send(model)
+    const router = express.Router({
+        mergeParams: true // 表示 接受父路由参数 也就是 resource
     })
-    router.get('/categories', async (req, res) => {
+
+    router.get('/', async (req, res) => {
+        // 这样每个接口都需要加，很麻烦， 所有我们使用中间件
+        // // inflection 把 可以把复数转换成 class 单数
+        // const MedelName = require('inflection').classify(req.params.resource)
+        // // 去查找模型
+        // const Medel = require(`../../models/${MedelName}`)
+
         // populate 表示 查询关联字段的数据    Category中我们关联的是parent
-        const model = await Category.find().populate('parent').sort({parent: 1}).limit(10).lean()
-        res.send(model)
-    })
-    router.get('/categories/:id', async (req, res) => {
-        const model = await Category.findById(req.params.id).lean()
-        res.send(model)
-    })
-
-    router.delete('/categories/:id', async (req, res) => {
-        console.log(req.params.id)
-        const model = await Category.findByIdAndDelete(req.params.id)
+        // 这里查询 需要指定字段去查关联字段的数据 每个模块都是不一样的
+        const queryOptions = {}
+        if (req.Medel.modelName == 'Category') {
+            queryOptions.populate = 'parent'
+            console.log(queryOptions);
+        }
+        
+        const model = await req.Medel.find().setOptions(queryOptions).sort({ parent: 1 }).limit(10).lean()
         res.send(model)
     })
 
-    router.put('/categories/:id', async (req, res) => {
-        const model = await Category.findByIdAndUpdate(req.params.id, req.body)
+    router.get('/:id', async (req, res) => {
+        const model = await req.Medel.findById(req.params.id).lean()
         res.send(model)
     })
 
-    // 只查询最顶级父元素
-    // router.get('/category/parents', async (req, res) => {
-    //     // const model = await Category.deleteMany()
-    //     const model = await Category.find().where({name: ''})
-    //     res.send(model)
-    // })
+    router.post('/', async (req, res) => {
+        const model = await req.Medel.create(req.body)
+        res.send(model)
+    })
     
-    app.use('/admin/api', router)
+    router.delete('/:id', async (req, res) => {
+        console.log(req.params.id)
+        const model = await req.Medel.findByIdAndDelete(req.params.id)
+        res.send(model)
+    })
+
+    router.put('/:id', async (req, res) => {
+        const model = await req.Medel.findByIdAndUpdate(req.params.id, req.body)
+        res.send(model)
+    })
+
+    // 做通用接口， 接受的动态参数resource 要跟模型存储的一样 方便操作
+    // 动态参数 要想在router 使用 也就是子路由  需要在创建子路由中 加上  mergeParams: true 表示接受父路由的参数
+    app.use('/admin/api/rest/:resource', async (req, res, next) => {
+
+        // inflection 把 可以把复数转换成 class 单数
+        const MedelName = require('inflection').classify(req.params.resource)
+
+        // 在这使用Medel ， 在router中是访问不到的 所以挂载到请求中 req 访问 就直接 req.Medel
+        // const Medel = require(`../../models/${MedelName}`)
+        req.Medel = require(`../../models/${MedelName}`)
+        next()
+    }, router)
 }
