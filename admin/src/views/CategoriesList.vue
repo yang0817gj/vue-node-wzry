@@ -42,7 +42,7 @@ export default {
             });
         },
         handleEdit(id) {
-            this.$router.push({ path: `/rest/categories/create/${id}` });
+            this.$router.push({ path: `/categories/create/${id}` });
         }
     }
 };

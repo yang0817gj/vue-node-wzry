@@ -1,7 +1,7 @@
 <template>
     <div class="page-main">
         <el-container style="height: 100vh; ">
-            <el-aside width="200px"  >
+            <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
                 <el-menu router :default-openeds="['1']">
                     <el-submenu index="1">
                         <template slot="title">
@@ -14,8 +14,8 @@
                         </el-menu-item-group>
                         <el-menu-item-group>
                             <template slot="title">物品管理</template>
-                            <el-menu-item index="/categories/create">新建物品</el-menu-item>
-                            <el-menu-item index="/categories/list">物品列表</el-menu-item>
+                            <el-menu-item index="/items/create">新建物品</el-menu-item>
+                            <el-menu-item index="/items/list">物品列表</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                 
@@ -69,5 +69,8 @@ export default {
 
 .el-aside {
     color: #333;
+}
+h3 {
+    padding: 20px 0;
 }
 </style>

@@ -3,6 +3,9 @@ module.exports = app => {
     const router = express.Router({
         mergeParams: true // 表示 接受父路由参数 也就是 resource
     })
+    let multer = require('multer');
+    let fs = require("fs");
+    let path = require("path");
 
     router.get('/', async (req, res) => {
         // 这样每个接口都需要加，很麻烦， 所有我们使用中间件
@@ -18,7 +21,7 @@ module.exports = app => {
             queryOptions.populate = 'parent'
             console.log(queryOptions);
         }
-        
+
         const model = await req.Medel.find().setOptions(queryOptions).sort({ parent: 1 }).limit(10).lean()
         res.send(model)
     })
@@ -32,7 +35,7 @@ module.exports = app => {
         const model = await req.Medel.create(req.body)
         res.send(model)
     })
-    
+
     router.delete('/:id', async (req, res) => {
         console.log(req.params.id)
         const model = await req.Medel.findByIdAndDelete(req.params.id)
@@ -56,4 +59,33 @@ module.exports = app => {
         req.Medel = require(`../../models/${MedelName}`)
         next()
     }, router)
+
+    app.use('/admin/api/upload', multer({
+        //设置文件存储路径
+        dest: __dirname + '/../../uploads'   //upload文件如果不存在则会自己创建一个。
+    }).single('file'),  (req, res) => {
+        if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
+            res.render("error", { message: "上传文件不能为空！" });
+            return
+        } else {
+            let file = req.file;
+            let fileInfo = {};
+            console.log(file);
+            fs.renameSync('./uploads/' + file.filename, './uploads/' + file.originalname);//这里修改文件名字，比较随意。
+            
+            // 获取文件信息
+            fileInfo.mimetype = file.mimetype;
+            fileInfo.originalname = file.originalname;
+            fileInfo.size = file.size;
+            fileInfo.path = file.path;
+
+            // 如果前台想访问存储图片 需要给前台返回路径 这里先写死
+            fileInfo.url = `http://localhost:3000/uploads/${file.originalname}`
+            res.send({
+                msg: true,
+                file: fileInfo
+            })
+
+        }
+    });
 }
