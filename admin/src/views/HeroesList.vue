@@ -6,6 +6,11 @@
                 <img :src="scope.row.avatar" height="60">
             </template>
         </el-table-column>
+        <el-table-column prop="title" label="称号" width="180"></el-table-column>
+        <!-- <el-table-column prop="title" label="类型" width="180">
+            <template v-slot="scope">
+            </template>
+        </el-table-column> -->
         <el-table-column label="操作">
             <template slot-scope="scope">
                 <el-button @click="handleEdit(scope.row._id)" type="text" size="small">编辑</el-button>

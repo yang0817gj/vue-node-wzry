@@ -11,34 +11,28 @@ const routes = [
         children: [
             {
                 path: '/categories/create',
-                name: 'category-create',
                 component: () => import('../views/CategoriesEdit.vue'),
             },
             {
                 path: '/categories/create/:id',
-                name: 'category-create',
                 component: () => import('../views/CategoriesEdit.vue'),
                 props: true
             },
             {
                 path: '/categories/list',
-                name: 'category-list',
                 component: () => import('../views/CategoriesList.vue'),
             },
             {
                 path: '/items/create',
-                name: 'item-create',
                 component: () => import('../views/ItemsEdit.vue'),
             },
             {
                 path: '/items/create/:id',
-                name: 'item-create',
                 component: () => import('../views/ItemsEdit.vue'),
                 props: true
             },
             {
                 path: '/items/list',
-                name: 'item-list',
                 component: () => import('../views/ItemsList.vue'),
             },
             {

@@ -78,4 +78,5 @@ export default {
 h3 {
     padding: 20px 0;
 }
+
 </style>

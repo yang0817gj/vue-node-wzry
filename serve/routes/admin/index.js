@@ -19,8 +19,8 @@ module.exports = app => {
         const queryOptions = {}
         if (req.Medel.modelName == 'Category') {
             queryOptions.populate = 'parent'
-            console.log(queryOptions);
-        }
+            // console.log(queryOptions);
+        } 
 
         const model = await req.Medel.find().setOptions(queryOptions).sort({ parent: 1 }).limit(10).lean()
         res.send(model)
