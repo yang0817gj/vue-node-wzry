@@ -43,9 +43,9 @@
                             <i class="el-icon-s-tools"></i>系统设置
                         </template>
                         <el-menu-item-group>
-                            <template slot="title">分类</template>
-                            <el-menu-item index="/categories/create">新建分类</el-menu-item>
-                            <el-menu-item index="/categories/list">分类列表</el-menu-item>
+                            <template slot="title">管理员</template>
+                            <el-menu-item index="/admin_users/create">新建管理员</el-menu-item>
+                            <el-menu-item index="/admin_users/list">分类管理员</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                 </el-menu>
@@ -101,7 +101,5 @@ export default {
 h3 {
     padding: 20px 0;
 }
-.page-main  .el-menu-item.is-active {
-    background: #f00;
-}
+
 </style>

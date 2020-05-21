@@ -20,7 +20,7 @@ module.exports = app => {
         if (req.Medel.modelName == 'Category') {
             queryOptions.populate = 'parent'
             // console.log(queryOptions);
-        } 
+        }
 
         const model = await req.Medel.find().setOptions(queryOptions).sort({ parent: 1 }).limit(10).lean()
         res.send(model)
@@ -63,7 +63,7 @@ module.exports = app => {
     app.use('/admin/api/upload', multer({
         //设置文件存储路径
         dest: __dirname + '/../../uploads'   //upload文件如果不存在则会自己创建一个。
-    }).single('file'),  (req, res) => {
+    }).single('file'), (req, res) => {
         if (req.file.length === 0) {  //判断一下文件是否存在，也可以在前端代码中进行判断。
             res.render("error", { message: "上传文件不能为空！" });
             return
@@ -72,7 +72,7 @@ module.exports = app => {
             let fileInfo = {};
             console.log(file);
             fs.renameSync('./uploads/' + file.filename, './uploads/' + file.originalname);//这里修改文件名字，比较随意。
-            
+
             // 获取文件信息
             fileInfo.mimetype = file.mimetype;
             fileInfo.originalname = file.originalname;
@@ -88,4 +88,28 @@ module.exports = app => {
 
         }
     });
+
+    app.use('/admin/api/login', async (req, res) => {
+        // 获取登录信息
+        const { username, pwd } = req.body
+
+        // 用户名不能重复 不能直接拿账号和密码去查
+        // 先用用户名去模型中查
+        const AdminUser = require('../../models/AdminUser')
+
+        const user = await AdminUser.findOne({username}).select('+pwd') // select +pwd 表示一起查处pwd 因为模型里设置了select：false 默然是查不出pwd 的
+        // 查不出来 直接返回
+        if (!user ) {
+            return res.status(422).send({
+                message: '用户不存在'
+            })
+        }
+
+        // 查出来，就去校验密码
+        // compareSync 解析密码
+        console.log(require('bcryptjs').compareSync(pwd, user.pwd))
+
+        // 返回token
+
+    })
 }

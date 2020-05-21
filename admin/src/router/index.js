@@ -5,7 +5,12 @@ Vue.use(VueRouter)
 
 const routes = [
     {
+        path: '/login',
+        component: () => import('../views/Login.vue')
+    },
+    {
         path: '/',
+        redirect: '/admin_users/list',
         name: 'main',
         component: () => import('../views/Main.vue'),
         children: [
@@ -73,6 +78,19 @@ const routes = [
             {
                 path: '/ads/list',
                 component: () => import('../views/AdList.vue'),
+            },
+            {
+                path: '/admin_users/create',
+                component: () => import('../views/AdminUsersEdit.vue'),
+            },
+            {
+                path: '/admin_users/create/:id',
+                component: () => import('../views/AdminUsersEdit.vue'),
+                props: true
+            },
+            {
+                path: '/admin_users/list',
+                component: () => import('../views/AdminUsersList.vue'),
             }
         ]
     },
