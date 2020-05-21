@@ -167,7 +167,8 @@ export default {
     data() {
         return {
             model: {
-                scores: {}
+                scores: {},
+                skills: [],
             },
             heroList: [],
             itemList: []
