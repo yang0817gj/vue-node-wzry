@@ -10,9 +10,20 @@ import http from './http.js'
 Vue.prototype.$http = http
 
 Vue.config.productionTip = false
-
+Vue.mixin({
+    computed: {
+        uploadsUrl() {
+            return http.defaults.baseURL + '/upload'
+        }
+    },
+    methods: {
+        getAuthToken() {
+            return { Authorization: 'Bearer ' + localStorage.token }
+        }
+    },
+})
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

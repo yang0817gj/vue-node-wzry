@@ -8,7 +8,8 @@
             <el-form-item label="装备图片">
                 <el-upload
                     class="icon-uploader"
-                    :action="$http.defaults.baseURL + '/upload'"
+                    :action="uploadsUrl"
+                    :headers="getAuthToken()"
                     :show-file-list="false"
                     :on-success="handleiconSuccess"
                 >
@@ -58,9 +59,9 @@ export default {
             this.model = res.data;
         },
         handleiconSuccess(res) {
-            console.log(res)
+            console.log(res);
             // this.model.icon = res.file.url
-            this.$set(this.model, 'icon', res.file.url)
+            this.$set(this.model, "icon", res.file.url);
         }
     }
 };

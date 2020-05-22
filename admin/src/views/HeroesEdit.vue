@@ -13,7 +13,8 @@
                     <el-form-item label="头像">
                         <el-upload
                             class="icon-uploader"
-                            :action="$http.defaults.baseURL + '/upload'"
+                            :action="uploadsUrl"
+                            :headers="getAuthToken()"
                             :show-file-list="false"
                             :on-success="handleiconSuccess"
                         >
@@ -34,7 +35,8 @@
                     <el-form-item label="背景图">
                         <el-upload
                             class="icon-uploader"
-                            :action="$http.defaults.baseURL + '/upload'"
+                            :action="uploadsUrl"
+                            :headers="getAuthToken()"
                             :show-file-list="false"
                             :on-success="handleBannerSuccess"
                         >
@@ -105,7 +107,14 @@
                     </el-form-item>
                 </el-tab-pane>
                 <el-tab-pane label="技能管理" name="second">
-                    <el-button size="medium" type="text" style="margin: 20px 0;" @click="model.skills.push({})"><i class="el-icon-plus"></i> 添加技能</el-button>
+                    <el-button
+                        size="medium"
+                        type="text"
+                        style="margin: 20px 0;"
+                        @click="model.skills.push({})"
+                    >
+                        <i class="el-icon-plus"></i> 添加技能
+                    </el-button>
                     <el-row type="flex" class="skills-wrap">
                         <el-col :md="12" v-for="(item, i) in model.skills" :key="i">
                             <el-card class="box-card">
@@ -116,15 +125,12 @@
                                     <el-form-item label="技能图标">
                                         <el-upload
                                             class="icon-uploader"
-                                            :action="$http.defaults.baseURL + '/upload'"
+                                            :action="uploadsUrl"
+                                            :headers="getAuthToken()"
                                             :show-file-list="false"
                                             :on-success="res => $set(item, 'icon', res.file.url)"
                                         >
-                                            <img
-                                                v-if="item.icon"
-                                                :src="item.icon"
-                                                class="icon"
-                                            />
+                                            <img v-if="item.icon" :src="item.icon" class="icon" />
                                             <i v-else class="el-icon-plus icon-uploader-icon"></i>
                                         </el-upload>
                                     </el-form-item>
@@ -141,8 +147,12 @@
                                     <el-form-item label="技能冷却">
                                         <el-input v-model="item.consume"></el-input>
                                     </el-form-item>
-                                    <el-form-item >
-                                        <el-button size="small" type="danger" @click="model.skills.splice(i,1)">删除技能</el-button>
+                                    <el-form-item>
+                                        <el-button
+                                            size="small"
+                                            type="danger"
+                                            @click="model.skills.splice(i,1)"
+                                        >删除技能</el-button>
                                     </el-form-item>
                                 </el-form>
                             </el-card>
@@ -168,7 +178,7 @@ export default {
         return {
             model: {
                 scores: {},
-                skills: [],
+                skills: []
             },
             heroList: [],
             itemList: []
@@ -208,7 +218,7 @@ export default {
         },
         handleBannerSuccess(res) {
             this.$set(this.model, "banner", res.file.url);
-        },
+        }
     }
 };
 </script>
