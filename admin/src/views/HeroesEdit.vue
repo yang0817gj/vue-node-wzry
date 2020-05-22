@@ -2,7 +2,7 @@
     <div class="category-create">
         <h3>{{id ? '修改' : '新建'}}英雄</h3>
         <el-form label-position="left" label-width="80px" @submit.native.prevent="handleSubmit">
-            <el-tabs value="second">
+            <el-tabs value="first">
                 <el-tab-pane label="基本信息" name="first">
                     <el-form-item label="名称">
                         <el-input v-model="model.name"></el-input>
@@ -200,10 +200,12 @@ export default {
                     this.model
                 );
             }
+            this.$router.push('/heroes/list')
+
         },
         async fetch() {
             const res = await this.$http.get(`/rest/heroes/${this.id}`);
-            this.model = res.data;
+            this.model = Object.assign({}, this.model, res.data) ;
         },
         async fetchHeroes() {
             const res = await this.$http.get("/rest/categories");

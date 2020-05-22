@@ -50,7 +50,7 @@ export default {
                     this.model
                 );
             }
-            console.log(res);
+            this.$router.push("/categories/list");
         },
         async fetch() {
             const res = await this.$http.get(`/rest/categories/${this.id}`);

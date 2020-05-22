@@ -31,6 +31,7 @@ export default {
             const res = await this.$http.post('/login', this.model)
             const token = res.data.token
             window.localStorage.setItem('token', token)
+            window.localStorage.setItem('username', JSON.stringify(res.data.user))
             this.$router.push('/')
         }
     },

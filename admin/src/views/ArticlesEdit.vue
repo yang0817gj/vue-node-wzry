@@ -127,7 +127,7 @@ export default {
                     this.model
                 );
             }
-            console.log(res);
+            this.$router.push('/articles/list')            
         },
         async fetch() {
             const res = await this.$http.get(`/rest/articles/${this.id}`);
@@ -135,13 +135,11 @@ export default {
         },
         async fetchCategories() {
             const res = await this.$http.get("/rest/categories");
-            // console.log(res);
 
             this.categoriesList = res.data;
         },
 
         onEditorChange({ quill, html, text }) {
-            // console.log("editor change!", quill, html, text);
             this.model.content = html;
         }
     }

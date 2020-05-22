@@ -92,7 +92,7 @@ module.exports = app => {
         // 用户名不能重复 不能直接拿账号和密码去查
         // 先用用户名去模型中查
 
-        const user = await AdminUser.findOne({ username }).select('+pwd') // select +pwd 表示一起查处pwd 因为模型里设置了select：false 默然是查不出pwd 的
+        const user = await AdminUser.findOne({ username }).select('+pwd').lean() // select +pwd 表示一起查处pwd 因为模型里设置了select：false 默然是查不出pwd 的
         // 查不出来 直接返回
         if (!user) {
             return res.status(422).send({
@@ -111,8 +111,9 @@ module.exports = app => {
         }
         // 返回token
 
-        var token = jwt.sign({ id: user._id }, app.get('secret'));
-        res.send({ token })
+        const token = jwt.sign({ id: user._id }, app.get('secret'));
+        delete user.pwd
+        res.send({ token,user })
 
     })
 

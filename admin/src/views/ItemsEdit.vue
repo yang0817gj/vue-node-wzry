@@ -52,14 +52,13 @@ export default {
                     this.model
                 );
             }
-            console.log(res);
+            this.$router.push('/items/list')
         },
         async fetch() {
             const res = await this.$http.get(`/rest/items/${this.id}`);
             this.model = res.data;
         },
         handleiconSuccess(res) {
-            console.log(res);
             // this.model.icon = res.file.url
             this.$set(this.model, "icon", res.file.url);
         }

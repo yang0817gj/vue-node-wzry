@@ -25,7 +25,6 @@ export default {
         async fetch() {
             const res = await this.$http.get("/rest/categories");
             this.model = res.data;
-            console.log(res);
         },
         handleDelete(row) {
             this.$confirm(`此操作将永久删除分类  "${row.name}"?`, "提示", {

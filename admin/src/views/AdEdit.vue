@@ -78,6 +78,7 @@ export default {
             } else {
                 res = await this.$http.put(`/rest/ads/${this.id}`, this.model);
             }
+            this.$router.push('/ads/list')
         },
         async fetch() {
             const res = await this.$http.get(`/rest/ads/${this.id}`);

@@ -24,7 +24,6 @@ export default {
         async fetch() {
             const res = await this.$http.get("/rest/admin_users");
             this.model = res.data;
-            console.log(res);
         },
         handleDelete(row) {
             this.$confirm(`此操作将永久删除 "${row.name}"?`, "提示", {
