@@ -97,9 +97,9 @@ module.exports = app => {
         // 先用用户名去模型中查
         const AdminUser = require('../../models/AdminUser')
 
-        const user = await AdminUser.findOne({username}).select('+pwd') // select +pwd 表示一起查处pwd 因为模型里设置了select：false 默然是查不出pwd 的
+        const user = await AdminUser.findOne({ username }).select('+pwd') // select +pwd 表示一起查处pwd 因为模型里设置了select：false 默然是查不出pwd 的
         // 查不出来 直接返回
-        if (!user ) {
+        if (!user) {
             return res.status(422).send({
                 message: '用户不存在'
             })
@@ -107,9 +107,17 @@ module.exports = app => {
 
         // 查出来，就去校验密码
         // compareSync 解析密码
-        console.log(require('bcryptjs').compareSync(pwd, user.pwd))
+        const flag = require('bcryptjs').compareSync(pwd, user.pwd)
 
+        if (!flag) {
+            return res.status(422).send({
+                message: '用户校验失败'
+            })
+        }
         // 返回token
+        var jwt = require('jsonwebtoken');
+        var token = jwt.sign({ id: user._id }, app.get('secret') );
+        res.send({token})
 
     })
 }

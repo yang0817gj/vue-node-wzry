@@ -9,7 +9,7 @@
                     <el-input v-model="model.username"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input v-model="model.pwd"></el-input>
+                    <el-input type="password" v-model="model.pwd"></el-input>
                 </el-form-item>
                 <el-form-item >
                     <el-button type="primary" native-type="submit">登录</el-button>
@@ -28,8 +28,10 @@ export default {
     },
     methods: {
         async handleLogin () {
-            console.log(this.model);
-            this.$http.post('/admin_users', this.model)
+            const res = await this.$http.post('/login', this.model)
+            const token = res.data.token
+            window.localStorage.setItem('token', token)
+            this.$router.push('/')
         }
     },
 };
