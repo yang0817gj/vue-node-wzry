@@ -3,9 +3,14 @@ module.exports = app => {
     const router = express.Router({
         mergeParams: true // 表示 接受父路由参数 也就是 resource
     })
-    let multer = require('multer');
-    let fs = require("fs");
-    let path = require("path");
+    const multer = require('multer');
+    const jwt = require('jsonwebtoken');
+    const assert = require('http-assert')
+    const fs = require("fs");
+    const path = require("path");
+    const AdminUser = require('../../models/AdminUser')
+    const auth = require('../../middleware/auth')
+    const resource = require('../../middleware/resource')
 
     router.get('/', async (req, res) => {
         // 这样每个接口都需要加，很麻烦， 所有我们使用中间件
@@ -49,18 +54,9 @@ module.exports = app => {
 
     // 做通用接口， 接受的动态参数resource 要跟模型存储的一样 方便操作
     // 动态参数 要想在router 使用 也就是子路由  需要在创建子路由中 加上  mergeParams: true 表示接受父路由的参数
-    app.use('/admin/api/rest/:resource', async (req, res, next) => {
+    app.use('/admin/api/rest/:resource', auth(), resource(), router)
 
-        // inflection 把 可以把复数转换成 class 单数
-        const MedelName = require('inflection').classify(req.params.resource)
-
-        // 在这使用Medel ， 在router中是访问不到的 所以挂载到请求中 req 访问 就直接 req.Medel
-        // const Medel = require(`../../models/${MedelName}`)
-        req.Medel = require(`../../models/${MedelName}`)
-        next()
-    }, router)
-
-    app.use('/admin/api/upload', multer({
+    app.use('/admin/api/upload', auth(), multer({
         //设置文件存储路径
         dest: __dirname + '/../../uploads'   //upload文件如果不存在则会自己创建一个。
     }).single('file'), (req, res) => {
@@ -95,7 +91,6 @@ module.exports = app => {
 
         // 用户名不能重复 不能直接拿账号和密码去查
         // 先用用户名去模型中查
-        const AdminUser = require('../../models/AdminUser')
 
         const user = await AdminUser.findOne({ username }).select('+pwd') // select +pwd 表示一起查处pwd 因为模型里设置了select：false 默然是查不出pwd 的
         // 查不出来 直接返回
@@ -115,9 +110,15 @@ module.exports = app => {
             })
         }
         // 返回token
-        var jwt = require('jsonwebtoken');
-        var token = jwt.sign({ id: user._id }, app.get('secret') );
-        res.send({token})
 
+        var token = jwt.sign({ id: user._id }, app.get('secret'));
+        res.send({ token })
+
+    })
+
+    // 错误处理函数， 不需要写路径  返回错误状态码在err 中statusCode 
+    app.use(async (err, req, res, next) => {
+        console.dir(err.statusCode)
+        res.status(err.statusCode).send({ message: err.message })
     })
 }
