@@ -24,7 +24,6 @@ module.exports = app => {
         const queryOptions = {}
         if (req.Medel.modelName == 'Category') {
             queryOptions.populate = 'parent'
-            // console.log(queryOptions);
         }
 
         const model = await req.Medel.find().setOptions(queryOptions).sort({ parent: 1 }).limit(10).lean()
@@ -38,7 +37,7 @@ module.exports = app => {
 
     router.post('/', async (req, res) => {
         const model = await req.Medel.create(req.body)
-        res.send(model)
+        // res.send(model)
     })
 
     router.delete('/:id', async (req, res) => {

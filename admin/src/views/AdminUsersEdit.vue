@@ -43,7 +43,7 @@ export default {
                     this.model
                 );
             }
-            this.$router.push('/admin_users/list')
+            // this.$router.push('/admin_users/list')
         },
         async fetch() {
             const res = await this.$http.get(`/rest/admin_users/${this.id}`);
