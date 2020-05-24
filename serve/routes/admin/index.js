@@ -24,6 +24,8 @@ module.exports = app => {
         const queryOptions = {}
         if (req.Medel.modelName == 'Category') {
             queryOptions.populate = 'parent'
+        } else if (req.Medel.modelName == 'AdminUser') {
+            // req.Medel.db.dropCollection('AdminUser')
         }
 
         const model = await req.Medel.find().setOptions(queryOptions).sort({ parent: 1 }).limit(10).lean()
@@ -37,7 +39,7 @@ module.exports = app => {
 
     router.post('/', async (req, res) => {
         const model = await req.Medel.create(req.body)
-        // res.send(model)
+        res.send(model)
     })
 
     router.delete('/:id', async (req, res) => {
@@ -119,6 +121,6 @@ module.exports = app => {
     // 错误处理函数， 不需要写路径  返回错误状态码在err 中statusCode 
     app.use(async (err, req, res, next) => {
         console.dir(err.statusCode)
-        res.status(err.statusCode).send({ message: err.message })
+        res.status(err.statusCode || 500 ).send({ message: err.message })
     })
 }
