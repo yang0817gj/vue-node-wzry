@@ -1,3 +1,5 @@
+@import './variables';
+
 * {
     box-sizing: border-box;
     outline: none;
@@ -15,12 +17,6 @@ body {
 }
 
 // $colors
-$colors: ('primary': #db9e3f,
-    'white': #fff,
-    'black': #000,
-    'grey': #999,
-    'dark': #222,
-    'dark-1': #343440);
 
 @each $key,
 $color in $colors {
@@ -41,13 +37,6 @@ $color in $colors {
 }
 
 // font sizes
-$base-font-size : 1rem;
-$font-sizes: (xs: 0.7692, // 10
-    sm: 0.9231, // 12 
-    md: 1, // 13
-    lg: 1.0769, // 14
-    xl: 1.2308, // 16
-);
 
 @each $key,
 $size in $font-sizes {
@@ -74,11 +63,6 @@ $size in $font-sizes {
     flex-grow: 1;
 }
 
-$flex-jc: (start: 'flex-start',
-    end: flex-end,
-    center: center,
-    between: space-between,
-    around: space-around);
 
 @each $key,
 $val in $flex-jc {
@@ -87,31 +71,12 @@ $val in $flex-jc {
     }
 }
 
-$flex-ai: (start: flex-start,
-    end: flex-end,
-    center: center,
-    stretch: stretch);
-
 @each $key,
 $val in $flex-ai {
     .ai-#{$key} {
         align-items: $val;
     }
 }
-
-// spacing 
-// 0 - 5 
-
-$spacing-types: (m : margin, p : padding);
-$spacing-directions: (t: top, r: right, b: bottom, l: left);
-$spacing-base-size: 1rem;
-
-$spacing-sizes: (0 : 0,
-    1 : 0.25,
-    2 : 0.5,
-    3 : 1,
-    4 : 1.5,
-    5: 3);
 
 @each $typeKey,
 $type in $spacing-types {
@@ -152,4 +117,22 @@ $type in $spacing-types {
             }
         }
     }
+}
+
+// btn 
+.btn {
+    border: none;
+    border-radius: 0.1538rem;
+    font-size: map-get($map: $font-sizes, $key: 'sm' ) * $base-font-size;
+}
+
+.nav {
+    .nav-item {
+        padding-bottom: 0.1538rem;
+        border-bottom: 0.2308rem solid transparent;
+        &.active {
+            border-bottom: 0.2308rem solid #fff;
+        }
+    }
+
 }
