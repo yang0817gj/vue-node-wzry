@@ -46,44 +46,17 @@
         </div>
         <!-- end of nav icons -->
 
-        <div class="card px-3 bg-white">
-            <div class="card-header d-flex ai-center py-3">
-                <i class="iconfont icon-menu fs-sm"></i>
-                <div class="flex-grow-1 px-2 fs-lg">新闻资讯</div>
-                <i class="iconfont icon-dian"></i>
-            </div>
-            <div class="card-nav d-flex jc-between pt-3 pb-1 fs-sm">
-                <div
-                    class="card-item"
-                    :class="{active: item == active}"
-                    v-for="item in 5"
-                    :key="item"
-                    @click="handleActive(item)"
-                >热门</div>
-            </div>
-            <swiper>
-                <swiper-slide class="pb-2" v-for="item in 5" :key="item">
-                    <div class="py-2" v-for="item in 5" :key="item">
-                        <span>[新闻]</span>
-                        <span>|</span>
-                        <span>5月26日全服不停机更新公告</span>
-                        <span>06/06</span>
-                    </div>
-                </swiper-slide>
-            </swiper>
-        </div>
-
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
-        <p>1231231</p>
+        <!-- <el-card title="新闻资讯" icon="menu"></el-card> -->
+        <list-card title="新闻资讯" icon="menu" :categories="newsCats">
+            <template #items="{category}">
+                <div class="py-2 d-flex" v-for="(item, i) in category.newsList" :key="i">
+                    <span>[{{item.categoryName}}]</span>
+                    <span class="px-1">|</span>
+                    <span class="flex-grow-1">{{item.title}}</span>
+                    <span>06/06</span>
+                </div>
+            </template>
+        </list-card>
     </div>
 </template>
 
@@ -99,7 +72,59 @@ export default {
                 autoplay: true
                 // Some Swiper option/callback...
             },
-            active: 1
+            active: 1,
+            newsCats: [
+                {
+                    name: "新闻",
+                    newsList: new Array(5).fill({}).map(v => {
+                        return {
+                            categoryName: "公告",
+                            title: "dasdasdas",
+                            date: "06/01"
+                        };
+                    })
+                },
+                {
+                    name: "热门",
+                    newsList: new Array(5).fill({}).map(v => {
+                        return {
+                            categoryName: "公告",
+                            title: "dasdasdas",
+                            date: "06/01"
+                        };
+                    })
+                },
+                {
+                    name: "热门",
+                    newsList: new Array(5).fill({}).map(v => {
+                        return {
+                            categoryName: "公告",
+                            title: "dasdasdas",
+                            date: "06/01"
+                        };
+                    })
+                },
+                {
+                    name: "热门",
+                    newsList: new Array(5).fill({}).map(v => {
+                        return {
+                            categoryName: "公告",
+                            title: "dasdasdas",
+                            date: "06/01"
+                        };
+                    })
+                },
+                {
+                    name: "热门",
+                    newsList: new Array(5).fill({}).map(v => {
+                        return {
+                            categoryName: "公告",
+                            title: "dasdasdas",
+                            date: "06/01"
+                        };
+                    })
+                }
+            ]
         };
     },
     computed: {
@@ -112,13 +137,13 @@ export default {
         // this.swiper.slideTo(3, 1000, false);
     },
     methods: {
-        handleActive (i) {
-            this.active = i
+        handleActive(i) {
+            this.active = i;
             console.log(i);
-            
-            this.swiper.slideTo(i -1);
+
+            this.swiper.slideTo(i - 1);
         }
-    },
+    }
 };
 </script>
 
