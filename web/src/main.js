@@ -6,7 +6,8 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
  
 // import style
 import 'swiper/css/swiper.css'
- 
+// import './assets/iconfont/iconfont'
+import './assets/iconfont/iconfont.css'
 Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
 Vue.config.productionTip = false
 import './assets/scss/style.scss'

@@ -62,6 +62,9 @@ $size in $font-sizes {
 .flex-grow-1 {
     flex-grow: 1;
 }
+.flex-wrap {
+    flex-wrap: wrap;
+}
 
 
 @each $key,
@@ -135,4 +138,20 @@ $type in $spacing-types {
         }
     }
 
+}
+
+.card-nav {
+    .card-item {
+        padding-bottom: 0.1538rem;
+        border-bottom: 0.2308rem solid transparent;
+        &.active {
+            border-bottom: 0.2308rem solid map-get($map: $colors, $key: 'primary' );
+            color: map-get($map: $colors, $key: 'primary' );
+        }
+    }
+
+}
+
+.card-header  {
+    border-bottom: 0.0769rem solid #d4d9de;
 }
