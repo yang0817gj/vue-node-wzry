@@ -43,14 +43,22 @@ module.exports = app => {
                 $addFields: {
                     newsList: { $slice: ['$newsList', 5] }
                 }
-            }  
+            }
 
         ])
-
-
-        // const parent = await Category.findOne({ name: '新闻分类' }).populate({
-        //     path: 'children'
-        // }).lean()
+        const subCats = cats.map(el => el._id)
+        cats.unshift({
+            name: '热门',
+            newsList: await Article.find().where({
+                // 根据 多条件查询  不限制一个id 查询
+                categories: { $in: subCats }
+            }).limit(5).lean()
+        })
+        cats.map(el => {
+            return el.newsList.map(i => {
+                return i.categoryName = el.name
+            })
+        })
         res.send(cats)
     })
     app.use('/web/api', router)

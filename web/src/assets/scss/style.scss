@@ -62,6 +62,7 @@ $size in $font-sizes {
 .flex-grow-1 {
     flex-grow: 1;
 }
+
 .flex-wrap {
     flex-wrap: wrap;
 }
@@ -101,6 +102,7 @@ $type in $spacing-types {
             #{$type}-right: $size * $spacing-base-size;
 
         }
+
         .#{$typeKey}y-#{$sizeKey} {
             #{$type}-top: $size * $spacing-base-size;
             #{$type}-bottom: $size * $spacing-base-size;
@@ -126,13 +128,14 @@ $type in $spacing-types {
 .btn {
     border: none;
     border-radius: 0.1538rem;
-    font-size: map-get($map: $font-sizes, $key: 'sm' ) * $base-font-size;
+    font-size: map-get($map: $font-sizes, $key: 'sm') * $base-font-size;
 }
 
 .nav {
     .nav-item {
         padding-bottom: 0.1538rem;
         border-bottom: 0.2308rem solid transparent;
+
         &.active {
             border-bottom: 0.2308rem solid #fff;
         }
@@ -144,14 +147,22 @@ $type in $spacing-types {
     .card-item {
         padding-bottom: 0.1538rem;
         border-bottom: 0.2308rem solid transparent;
+
         &.active {
-            border-bottom: 0.2308rem solid map-get($map: $colors, $key: 'primary' );
-            color: map-get($map: $colors, $key: 'primary' );
+            border-bottom: 0.2308rem solid map-get($map: $colors, $key: 'primary');
+            color: map-get($map: $colors, $key: 'primary');
         }
     }
 
 }
 
-.card-header  {
+.card-header {
     border-bottom: 0.0769rem solid #d4d9de;
+}
+
+.text-ellipsis {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

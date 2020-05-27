@@ -50,10 +50,10 @@
         <list-card title="新闻资讯" icon="menu" :categories="newsCats">
             <template #items="{category}">
                 <div class="py-2 d-flex" v-for="(item, i) in category.newsList" :key="i">
-                    <span>[{{item.categoryName}}]</span>
+                    <span class="text-info">[{{item.categoryName}}]</span>
                     <span class="px-1">|</span>
-                    <span class="flex-grow-1">{{item.title}}</span>
-                    <span>06/06</span>
+                    <span class="pr-2 flex-1 text-ellipsis">{{item.title}}</span>
+                    <span>{{item.createdAt | date}}</span>
                 </div>
             </template>
         </list-card>
@@ -61,8 +61,14 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 export default {
     name: "Home",
+    filters: {
+        date (val) {
+            return dayjs(val).format('MM/DD')
+        }
+    },
     data() {
         return {
             swiperOptions: {
@@ -73,58 +79,7 @@ export default {
                 // Some Swiper option/callback...
             },
             active: 1,
-            newsCats: [
-                {
-                    name: "新闻",
-                    newsList: new Array(5).fill({}).map(v => {
-                        return {
-                            categoryName: "公告",
-                            title: "dasdasdas",
-                            date: "06/01"
-                        };
-                    })
-                },
-                {
-                    name: "热门",
-                    newsList: new Array(5).fill({}).map(v => {
-                        return {
-                            categoryName: "公告",
-                            title: "dasdasdas",
-                            date: "06/01"
-                        };
-                    })
-                },
-                {
-                    name: "热门",
-                    newsList: new Array(5).fill({}).map(v => {
-                        return {
-                            categoryName: "公告",
-                            title: "dasdasdas",
-                            date: "06/01"
-                        };
-                    })
-                },
-                {
-                    name: "热门",
-                    newsList: new Array(5).fill({}).map(v => {
-                        return {
-                            categoryName: "公告",
-                            title: "dasdasdas",
-                            date: "06/01"
-                        };
-                    })
-                },
-                {
-                    name: "热门",
-                    newsList: new Array(5).fill({}).map(v => {
-                        return {
-                            categoryName: "公告",
-                            title: "dasdasdas",
-                            date: "06/01"
-                        };
-                    })
-                }
-            ]
+            newsCats: []
         };
     },
     computed: {
@@ -133,8 +88,8 @@ export default {
         }
     },
     mounted() {
-        console.log("Current Swiper instance object", this.swiper);
-        // this.swiper.slideTo(3, 1000, false);
+        // console.log("Current Swiper instance object", this.swiper);
+        this.fatch();
     },
     methods: {
         handleActive(i) {
@@ -142,6 +97,10 @@ export default {
             console.log(i);
 
             this.swiper.slideTo(i - 1);
+        },
+        async fatch() {
+            const res = await this.$http.get("/news/list");
+            this.newsCats = res.data;
         }
     }
 };

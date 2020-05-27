@@ -11,10 +11,10 @@
                 :class="{active: i == active}"
                 v-for="(item, i) in categories"
                 :key="i"
-                @click="active = i"
+                @click="$refs.list.$swiper.slideTo(i)"
             >{{item.name}}</div>
         </div>
-        <swiper>
+        <swiper ref="list" @slide-change="() => active = $refs.list.$swiper.realIndex">
             <swiper-slide class="pb-2" v-for="(item, i) in categories" :key="i">
                 <slot name="items" :category="item"></slot>
             </swiper-slide>
