@@ -1,13 +1,16 @@
  <template>
-    <el-table :data="model" style="width: 100%">
-        <el-table-column prop="title" label="标题"></el-table-column>
-        <el-table-column label="操作">
-            <template slot-scope="scope">
-                <el-button @click="handleEdit(scope.row._id)" type="text" size="small">编辑</el-button>
-                <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
-            </template>
-        </el-table-column>
-    </el-table>
+    <div>
+        <el-table :data="model" style="width: 100%" :max-height="550">
+            <el-table-column prop="title" label="标题"></el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button @click="handleEdit(scope.row._id)" type="text" size="small">编辑</el-button>
+                    <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div style="padding-top:20px;text-align:center;">你好呀</div>
+    </div>
 </template>
 
 <script>
@@ -36,7 +39,7 @@ export default {
                     type: "success",
                     message: "删除成功!"
                 });
-                this.fetch()
+                this.fetch();
             });
         },
         handleEdit(id) {
