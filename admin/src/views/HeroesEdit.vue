@@ -18,7 +18,7 @@
                             :show-file-list="false"
                             :on-success="handleiconSuccess"
                         >
-                            <img v-if="model.avatar" :src="model.avatar" class="icon" />
+                            <img v-if="model.avater" :src="model.avater" class="icon" />
                             <i v-else class="el-icon-plus icon-uploader-icon"></i>
                         </el-upload>
                     </el-form-item>
@@ -216,7 +216,7 @@ export default {
             this.itemList = res.data;
         },
         handleiconSuccess(res) {
-            this.$set(this.model, "avatar", res.file.url);
+            this.$set(this.model, "avater", res.file.url);
         },
         handleBannerSuccess(res) {
             this.$set(this.model, "banner", res.file.url);

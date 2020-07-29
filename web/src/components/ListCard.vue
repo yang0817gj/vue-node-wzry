@@ -14,7 +14,11 @@
                 @click="$refs.list.$swiper.slideTo(i)"
             >{{item.name}}</div>
         </div>
-        <swiper ref="list" @slide-change="() => active = $refs.list.$swiper.realIndex">
+        <swiper
+            ref="list"
+            :options="{autoHeight: true}"
+            @slide-change="() => active = $refs.list.$swiper.realIndex"
+        >
             <swiper-slide class="pb-2" v-for="(item, i) in categories" :key="i">
                 <slot name="items" :category="item"></slot>
             </swiper-slide>
@@ -40,7 +44,7 @@ export default {
     data() {
         return {
             active: 0
-        }
-    },
+        };
+    }
 };
 </script>

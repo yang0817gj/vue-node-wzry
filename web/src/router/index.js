@@ -16,6 +16,11 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/hero/detail/:id',
+        name: 'details',
+        component: () => import('../views/HeroDetails.vue'),
+    }
     // {
     //     path: '/about',
     //     name: 'About',

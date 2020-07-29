@@ -45,8 +45,6 @@
             </div>
         </div>
         <!-- end of nav icons -->
-
-        <!-- <el-card title="新闻资讯" icon="menu"></el-card> -->
         <list-card title="新闻资讯" icon="menu" :categories="newsCats">
             <template #items="{category}">
                 <div class="py-2 d-flex" v-for="(item, i) in category.newsList" :key="i">
@@ -57,16 +55,36 @@
                 </div>
             </template>
         </list-card>
+        <!-- end of 新闻资讯 -->
+
+        <list-card title="英雄列表" icon="card-hero" :categories="newHeros">
+            <template #items="{category}">
+                <div class="d-flex flex-wrap" style="margin:0 -0.5rem;">
+                    <div
+                        class="p-2 text-center fs-xs"
+                        style="width:20%;"
+                        v-for="(hero, i) in category.heroList"
+                        :key="i"
+                    >
+                        <img :src="hero.avater" style="width:100%;" />
+                        <div>{{hero.name}}</div>
+                    </div>
+                </div>
+            </template>
+        </list-card>
+        <!-- end of 英雄列表 -->
+
+        <list-card title="精彩视频" icon="card-hero" ></list-card>
     </div>
 </template>
 
 <script>
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 export default {
     name: "Home",
     filters: {
-        date (val) {
-            return dayjs(val).format('MM/DD')
+        date(val) {
+            return dayjs(val).format("MM/DD");
         }
     },
     data() {
@@ -79,7 +97,8 @@ export default {
                 // Some Swiper option/callback...
             },
             active: 1,
-            newsCats: []
+            newsCats: [],
+            newHeros: []
         };
     },
     computed: {
@@ -90,17 +109,20 @@ export default {
     mounted() {
         // console.log("Current Swiper instance object", this.swiper);
         this.fatch();
+        this.heroFatch();
     },
     methods: {
         handleActive(i) {
             this.active = i;
-            console.log(i);
-
             this.swiper.slideTo(i - 1);
         },
         async fatch() {
             const res = await this.$http.get("/news/list");
             this.newsCats = res.data;
+        },
+        async heroFatch() {
+            const res = await this.$http.get("/hero/list");
+            this.newHeros = res.data;
         }
     }
 };
